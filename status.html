@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<header>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="library/qrcode/jquery.min.js"></script>
+    <script type="text/javascript" src="library/qrcode/qrcode.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+</header>
+<body>
+    <div class="container" align="center">
+        <div class="menu-row">
+            <button type="button" onclick="loadOverview()" class="btn btn-primary btn-lg">Übersicht</button>
+            <button type="button" onclick="loadPayView()" class="btn btn-primary btn-lg">Bezahlen €</button>
+        </div>
+        <div id="qrcode"></div>
+        <div class="progress-info">
+            <!-- suche Transaktion/warte auf Bestätigung/Transaktion erfolgreich!/Fehlender Betrag!/Fehlgeschlagen/Zeitüberschreitung -->
+            <h3 id="stateHeader">Status: <span id="stateText">Zeitüberschreitung</span></h3>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%" id="progressBar"></div>
+            </div>
+            <h5>Empfänger HAARZEIT:<br><span id="receiverAddress">changeme</span></h5>
+            <h5>Sender Kunde/Kundin:<br><span id="senderAddress">suche Transaktion...</span></h5>
+            <h5>Betrag: <span id="amountBase">0.03980000</span> BCH ~ <span id="amountQuote">19,50 €</span></h5>
+            <h5>Wechselkurs BCH-EUR: <span id="price">487,89 €</span></h5>
+            <h5 id="infoText">Keine Transaktion in gegebener Zeit gefunden.</h5>
+        </div>
+        
+       
+        <div class="footer">
+            BCH-EUR: 498,45€
+        </div>
+    </div>
+    
+    
+    <script>
+        var eurFormatter = new Intl.NumberFormat('de-DE',{ style: 'currency', currency: 'EUR',minimumFractionDigits: 2 });
+        var baseFormatter = new Intl.NumberFormat('en-EN',{ minimumFractionDigits: 8 });
+        var qrcode = new QRCode("qrcode");
+        
+        var receiverAddress = "1Ef5dX93jhbDMcDD6xwvUuTNRBUmrdSHzi";
+        var STATE_SEARCH = 0;
+        var STATE_WAIT = 1;
+        var STATE_SUCCESS = 2;
+        var STATE_MISSING_AMOUNT = 3;
+        var STATE_FAILED = 4;
+        var STATE_TIMEOUT = 5;
+        var STATE_TEXT = ["suche Transaktion", "warte auf Bestätigung", "Transaktion erfolgreich!", "Fehlender Betrag!", "Fehlgeschlagen", "Zeitüberschreitung"];
+        var STATE_PROGRESS_WIDTH = [33, 66, 100, 75, 100, 100];
+        var STATE_PROGRESS_COLOR = ["bg-warning", "bg-warning", "bg-success", "bg-danger", "bg-danger", "bg-danger"];
+        var STATE_PROGRESS_ANIMATE = ["progress-bar-animated", "progress-bar-animated", "", "progress-bar-animated", "", ""];
+        
+        var amountQuote = null;
+        var amountBase = null;
+        var price = null;
+        var state = null;
+        
+        function loadParameter(){
+            var urlString = window.location.href;
+            var url = new URL(urlString);
+            amountQuote = url.searchParams.get("amount");
+            amountBase = url.searchParams.get("base");
+            price = url.searchParams.get("price");
+            state = url.searchParams.get("state");
+            if(!amountQuote)
+                return;
+            setQuoteAmount(parseFloat(amountQuote));
+            
+            if(!price)
+                price = getCurrentPrice();
+            setPrice(price);
+            
+            if(!amountBase)
+                amountBase = parseFloat(amountQuote) / price;
+            setBaseAmount(amountBase);
+            
+            if(!state)
+                state = 0;
+            setState(state)
+            
+            setReceiverAddress(receiverAddress);
+            
+            qrcode.makeCode("bitcoincash:"+receiverAddress+"?amount="+amountBase+"&note=21.02.1996 06:45:31");
+        }
+        
+        function setState(state){
+            document.getElementById("stateText").innerHTML = STATE_TEXT[state];
+            document.getElementById("progressBar").style.width = STATE_PROGRESS_WIDTH[state]+"%";
+            document.getElementById("progressBar").classList.remove("bg-danger");
+            document.getElementById("progressBar").classList.remove("bg-success");
+            document.getElementById("progressBar").classList.remove("bg-warning");
+            document.getElementById("progressBar").classList.remove("progress-bar-animated");
+            
+            document.getElementById("progressBar").classList.add(STATE_PROGRESS_COLOR[state]);
+            if (STATE_PROGRESS_ANIMATE[state]!="")
+                document.getElementById("progressBar").classList.add(STATE_PROGRESS_ANIMATE[state]);
+            
+        }
+        
+        function setReceiverAddress(address){
+            document.getElementById("receiverAddress").innerHTML = address;
+        }
+        
+        function setSenderAddress(address){
+            document.getElementById("receiverAddress").innerHTML = address;
+        }
+        
+        function setQuoteAmount(amount){
+            amountQuote = eurFormatter.format(amount);
+            document.getElementById("amountQuote").innerHTML = amountQuote;
+        }
+        
+        function setBaseAmount(amount){
+            amountBase = baseFormatter.format(amount);
+            document.getElementById("amountBase").innerHTML = amountBase;
+        }
+        
+        function setPrice(price){
+            document.getElementById("price").innerHTML = eurFormatter.format(price);
+        }
+        
+        function loadPayView(){
+            window.open("pay.html", "_self");
+        }
+        
+        function loadOverview(){
+            window.open("index.html", "_self");
+        }
+        
+        loadParameter();
+    </script>
+</body>
+</html>

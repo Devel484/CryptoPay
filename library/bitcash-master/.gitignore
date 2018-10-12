@@ -1,0 +1,13 @@
+*.log
+*.pyc
+*.orig
+__pycache__
+/.cache
+/.idea
+/.coverage
+/.pytest_cache
+/bitcash.egg-info
+/build
+/dist
+/docs/build
+/wheelhouse

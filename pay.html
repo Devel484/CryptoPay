@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<header>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</header>
+<body>
+    <div class="container" align="center">
+        <div class="menu-row">
+            <button type="button" onclick="loadOverview()" class="btn btn-primary btn-lg">Übersicht</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg">Bezahlen €</button>
+        </div>
+        <div class="input-row input-group">
+            <input type="text" class="form-control" placeholder="Betrag in €" aria-label="amount" id="amount">
+            <div class="input-group-append">
+                <button class="btn btn-secondary" type="button" onclick="clearAmount()">Clear</button>
+            </div>
+        </div>
+        <div class="number-row">
+            <button type="button" onclick="addDigit(this)" class="btn btn-primary btn-lg">1</button>
+            <button type="button" onclick="addDigit(this)" class="btn btn-primary btn-lg">2</button>
+            <button type="button" onclick="addDigit(this)" class="btn btn-primary btn-lg">3</button>
+        </div>
+        <div class="number-row">
+            <button type="button" onclick="addDigit(this)" class="btn btn-primary btn-lg">4</button>
+            <button type="button" onclick="addDigit(this)" class="btn btn-primary btn-lg">5</button>
+            <button type="button" onclick="addDigit(this)" class="btn btn-primary btn-lg">6</button>
+        </div>
+        <div class="number-row">
+            <button type="button" onclick="addDigit(this)" class="btn btn-primary btn-lg">7</button>
+            <button type="button" onclick="addDigit(this)" class="btn btn-primary btn-lg">8</button>
+            <button type="button" onclick="addDigit(this)" class="btn btn-primary btn-lg">9</button>
+        </div>
+        <div class="number-row">
+            <button type="button" onclick="addDigit(this)" class="btn btn-primary btn-lg">0</button>
+            <button type="button" onclick="addDigit(this)" class="btn btn-primary btn-lg">.</button>
+            <button type="button" onclick="deleteDigit()" class="btn btn-danger btn-lg"><b>&#8678;</b></button>
+        </div>
+        <div class="continue-row">
+            <button type="button" onclick="payAmount()" class="btn btn-success btn-lg">Bezahlen</button>
+        </div>
+        <div class="footer">
+            BCH-EUR: 498,45€
+        </div>
+    </div>
+    
+    <script>
+        
+        
+    </script>
+</body>
+</html>

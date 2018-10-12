@@ -1,0 +1,62 @@
+html, body {margin: 0; height: 100%; overflow: hidden}
+
+body{
+    max-width: 480px;
+    max-height: 800px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.cointainer{
+    max-width: 480px;
+    max-height: 800px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.btn{
+    width:90px;
+    height:90px;
+    margin: 5px;
+}
+
+
+.input-row input{
+    max-width: 190px;
+    height: 50px;
+    margin: 5px;
+    margin-left: 70px;
+    
+}
+
+.input-row button{
+    max-width: 90px;
+    max-height: 50px;
+    margin: 5px;
+    margin-left: 10px;
+}
+
+.continue-row button{
+    width: 300px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.menu-row button{
+    width:200px;
+    height: 50px;
+}
+
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: grey;
+  text-align: center;
+}
+
+.progress-info{
+    text-align: left;
+}
