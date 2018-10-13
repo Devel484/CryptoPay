@@ -1,5 +1,5 @@
 
-var MIN_CONFORMATIONS = 1;
+var MIN_CONFORMATIONS = 0;
 
 var STATE_SEARCH = 0;
 var STATE_WAIT = 1;
@@ -20,6 +20,7 @@ var indexView = document.getElementById("indexView");
 var payView = document.getElementById("payView");
 var stateView = document.getElementById("stateView");
 var mainView = document.getElementById("mainView");
+var current_price = 400.00;
         
 function loadIndexView(){
     mainView.innerHTML = indexView.innerHTML;
@@ -36,10 +37,8 @@ function loadStateView(){
 
 function init(){
     loadIndexView();
-    
     setInterval(load_transactions, 2500);
-    
-    //get_transactions("1BZKbSjrzzdUjpuiqGVSW16FdEzU1ktwAh", 1537281620);
+    setInterval(loadCurrentPrice, 2500);
 }
 
 function load_transactions(){
@@ -52,9 +51,27 @@ function load_transactions(){
     }
 }
         
+function loadCurrentPrice(){
+    var xmlHttp = new XMLHttpRequest();
+     xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            onPriceLoaded(JSON.parse(xmlHttp.responseText));
+    }
+    xmlHttp.open( "GET", "https://api.pro.coinbase.com/products/BCH-EUR/ticker", true ); // false for synchronous request
+    xmlHttp.send( null );
+}
+
+function onPriceLoaded(data){
+    current_price = parseFloat(data["ask"]);
+    updateFooter();
+}
 
 function getCurrentPrice(){
-    return 484.13;
+    return current_price;
+}
+
+function updateFooter(){
+    document.getElementById("footer").innerHTML = "BCH-EUR: "+eurFormatter.format(getCurrentPrice());
 }
 
 if (!Date.now) {

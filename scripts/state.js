@@ -1,4 +1,4 @@
-var eurFormatter = new Intl.NumberFormat('de-DE',{ style: 'currency', currency: 'EUR',minimumFractionDigits: 2 });
+var eurFormatter = new Intl.NumberFormat('en-En',{ style: 'currency', currency: 'EUR',minimumFractionDigits: 2 });
 var baseFormatter = new Intl.NumberFormat('en-EN',{ minimumFractionDigits: 8 });
 var qrcode = new QRCode("qrcode");
         
@@ -24,6 +24,7 @@ function loadParameter(tx, index){
     price = tx["price"];
     state = tx["state"];
     receiverAddress = tx["address"]
+    hash="";
     
     setBaseAmount(amountBase);
     setQuoteAmount(parseFloat(amountQuote));
@@ -31,8 +32,8 @@ function loadParameter(tx, index){
 
     if(state!=STATE_SEARCH && state!=STATE_FAILED){
         hash = tx["hash"]
-        setTXHash(hash);
     }
+    setTXHash(hash);
     setState(state);
 
     setReceiverAddress(receiverAddress);
@@ -61,7 +62,14 @@ function setReceiverAddress(address){
 }
         
 function setTXHash(hash){
-    document.getElementById("hash").innerHTML = hash;
+    if(hash==""){
+        document.getElementById("hash").innerHTML = hash;
+    }else{
+        var hash_1 = hash.substring(0, hash.length/2);
+        var hash_2 = hash.substring(hash.length/2);
+        document.getElementById("hash").innerHTML = hash_1+"<br>"+hash_2;
+    }
+    
 }
         
 function setQuoteAmount(amount){
