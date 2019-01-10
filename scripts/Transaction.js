@@ -10,6 +10,14 @@ function Transaction(hash, address, amount, price, state, timestamp, page){
     this.timestamp = timestamp;
     this.page = page;
 
+    this.getHash = function() {
+        return this.hash;
+    };
+
+    this.getPage = function() {
+        return this.page;
+    };
+
     this.getAddress = function () {
         return this.address;
     };
@@ -24,6 +32,10 @@ function Transaction(hash, address, amount, price, state, timestamp, page){
 
     this.getState = function () {
         return this.state;
+    };
+
+    this.setState = function (state) {
+        this.state = state
     };
 
     this.getFiat = function () {
