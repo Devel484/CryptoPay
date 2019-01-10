@@ -13,10 +13,10 @@ function addDigit(element){
     var inputField = getInputField();
     var text = inputField.value;
     var add = element.innerHTML;
-    if(text.length == 0 && add == ".")
-        return
+    if(text.length === 0 && add === ".")
+        return;
                 
-    if(add == "."){
+    if(add === "."){
         if(!allowDot){
             return;
         }
@@ -24,8 +24,8 @@ function addDigit(element){
     }
             
     if(!allowDot){
-        var splitted = text.split(".")
-        if(splitted.length == 2 && splitted[1].length==2){
+        var splitted = text.split(".");
+        if(splitted.length === 2 && splitted[1].length === 2){
             return;
         }
     }
@@ -35,13 +35,13 @@ function addDigit(element){
 function deleteDigit(){
     var inputField = getInputField();
     var text = inputField.value;
-    if(text.length == 0){
+    if(text.length === 0){
         return;
     }
     var deleted = text.substring(text.length-1, text.length);
     text = text.substring(0, text.length-1);
     inputField.value = text;
-    if(deleted == "."){
+    if(deleted === "."){
         allowDot = true;
     }
 }
@@ -49,11 +49,11 @@ function deleteDigit(){
 function payAmount(){
     var inputField = getInputField();
     var text = inputField.value;
-    if(text.length == 0){
+    if(text.length === 0){
         return;
     }
     var last = text.substring(text.length-1, text.length);
-    if(last=="."){
+    if(last === "."){
         deleteDigit();
     }
     allowDot = true;

@@ -44,7 +44,7 @@ function init(){
 function load_transactions(){
     var address = possible_addresses[possible_address_counter]["address"];
     var page = possible_addresses[possible_address_counter]["page"]
-    get_transactions(address);
+    get_transactions(address, page);
     ++possible_address_counter;
     if(possible_address_counter>=possible_addresses.length){
         possible_address_counter = 0;
@@ -52,9 +52,9 @@ function load_transactions(){
 }
         
 function loadCurrentPrice(){
-    var xmlHttp = new XMLHttpRequest();
-     xmlHttp.onreadystatechange = function() { 
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+     var xmlHttp = new XMLHttpRequest();
+     xmlHttp.onreadystatechange = function() {
+         if (xmlHttp.readyState === 4 && xmlHttp.status === 200)
             onPriceLoaded(JSON.parse(xmlHttp.responseText));
     }
     xmlHttp.open( "GET", "https://api.pro.coinbase.com/products/BCH-EUR/ticker", true ); // false for synchronous request
@@ -81,7 +81,7 @@ if (!Date.now) {
 function get_transactions(address, page=1){
      var xmlHttp = new XMLHttpRequest();
      xmlHttp.onreadystatechange = function() { 
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+        if (xmlHttp.readyState === 4 && xmlHttp.status === 200)
             on_get_transactions(JSON.parse(xmlHttp.responseText), address);
     }
     xmlHttp.open( "GET", "https://bch-chain.api.btc.com/v3/address/"+address+"/tx?page="+page, true ); // false for synchronous request
@@ -172,7 +172,7 @@ function update_Tx(hash, confirmations, base, address, timestamp){
 function on_get_transactions(response, address, timestamp){
     var data = response["data"];
     if(!data)
-        return
+        return;
     var list = data["list"];
     for(var i = 0 ; i < list.length; ++i){
         var tx = list[i];
@@ -183,7 +183,7 @@ function on_get_transactions(response, address, timestamp){
             var confirmations = tx["confirmations"];
             var height = tx["block_height"];
             var quote = parseFloat(output["value"])/100000000;
-            var timestamp = tx["created_at"]
+            var timestamp = tx["created_at"];
             var cur_i;
             if((cur_i=update_Tx(hash, confirmations, quote, address, timestamp))>=0){
                 //console.log("updated")
