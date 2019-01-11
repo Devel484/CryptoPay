@@ -1,8 +1,8 @@
 
 
-function Transaction(hash, address, amount, price, state, timestamp, page){
+function Transaction(hash, wallet, amount, price, state, timestamp, page){
     this.hash = hash;
-    this.address = address;
+    this.wallet = wallet;
     this.amount = amount;
     this.price = price;
     this.state = state;
@@ -14,12 +14,16 @@ function Transaction(hash, address, amount, price, state, timestamp, page){
         return this.hash;
     };
 
+    this.setHash = function (hash) {
+        this.hash = hash;
+    }
+
     this.getPage = function() {
         return this.page;
     };
 
-    this.getAddress = function () {
-        return this.address;
+    this.getWallet = function () {
+        return this.wallet;
     };
 
     this.getAmount = function() {
