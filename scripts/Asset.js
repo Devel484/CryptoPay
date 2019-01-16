@@ -29,7 +29,7 @@ function Asset(name, ticker) {
             if (this.readyState === 4 && this.status === 200)
                 this.asset.onPriceUpdate(JSON.parse(this.responseText));
         };
-        this.xmlHttp.open( "GET", "https://api.pro.coinbase.com/products/BCH-EUR/ticker", false ); // false for synchronous request
+        this.xmlHttp.open( "GET", "https://api.pro.coinbase.com/products/BCH-EUR/ticker", true ); // false for synchronous request
         this.xmlHttp.send( null );
     };
 

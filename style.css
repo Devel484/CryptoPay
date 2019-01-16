@@ -60,3 +60,11 @@ body{
 .progress-info{
     text-align: left;
 }
+
+.table-entry td {
+    height: 50px;
+}
+
+.id-counter{
+    width: 50px;
+}

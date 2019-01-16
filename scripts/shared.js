@@ -24,7 +24,7 @@ var current_price = 400.00;
         
 function loadIndexView(){
     mainView.innerHTML = indexView.innerHTML;
-    update_table();
+    //update_table();
 }
 
 function loadPayView(){
@@ -37,8 +37,8 @@ function loadStateView(){
 
 function init(){
     loadIndexView();
-    setInterval(load_transactions, 2500);
-    setInterval(loadCurrentPrice, 2500);
+    //setInterval(load_transactions, 2500);
+    //setInterval(loadCurrentPrice, 2500);
 }
 
 function load_transactions(){
@@ -187,7 +187,7 @@ function on_get_transactions(response, address, timestamp){
             var cur_i;
             if((cur_i=update_Tx(hash, confirmations, quote, address, timestamp))>=0){
                 //console.log("updated")
-                update_table();
+                //update_table();
                 if(current_tx_index==cur_i){
                     loadParameter(transactions[cur_i], cur_i);
                 }

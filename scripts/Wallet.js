@@ -37,7 +37,7 @@ function Wallet(asset, address) {
 
         for (let i=0; i<length; ++i){
             let createdAt = data["list"][i]["created_at"];
-            let confirmations = data["list"][i]["conformations"];
+            let confirmations = data["list"][i]["confirmations"];
             let state = Transaction.STATE.WAIT;
             if (confirmations >= 0) {
                 state = Transaction.STATE.SUCCESS;
@@ -48,7 +48,6 @@ function Wallet(asset, address) {
                     let amount = parseFloat(data["list"][i]["outputs"][j]["value"]) / Math.pow(10, 8);
                     let price = this.getAsset().getPrice();
                     let transaction = new Transaction(hash, this, amount, price, state, createdAt, page);
-                    console.log(transaction)
                     let old_transaction = null;
                     if ( hash in this.transactions ) {
                         old_transaction = this.transactions[hash];
@@ -66,6 +65,7 @@ function Wallet(asset, address) {
     this.onTransactionUpdate = function (newTransaction, oldTransaction) {
         if (oldTransaction == null){
             this.transactions[newTransaction.getHash()] = newTransaction;
+            Transaction.add(newTransaction);
             return;
         }
 
@@ -84,6 +84,10 @@ function Wallet(asset, address) {
             console.log("stateChanged");
         }
 
+        if ( oldTransaction.getPrice() == null){
+            console.log("update");
+            oldTransaction.setPrice(newTransaction.getPrice());
+        }
     };
 
     this.loadTransactions = function () {
@@ -91,7 +95,7 @@ function Wallet(asset, address) {
             if (this.readyState === 4 && this.status === 200)
                 this.wallet.onTransactionsLoaded(JSON.parse(this.responseText));
         };
-        this.xmlHttp.open( "GET", "https://bch-chain.api.btc.com/v3/address/"+this.address+"/tx?page="+this.page, true );
+        this.xmlHttp.open( "GET", "https://bch-chain.api.btc.com/v3/address/"+this.address+"/tx?page="+this.page, false );
         this.xmlHttp.send( null );
     };
 }
